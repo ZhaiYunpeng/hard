@@ -3,11 +3,37 @@ spring:
     name: auth
   profiles:
     active: dev
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    hikari:
+      #      jdbc-url: jdbc:mysql://39.103.174.18:3306/zyp?allowMultiQueries=true&serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=UTF-8&useSSL=false
+      #      username: root
+      #      password: rootP@ssword
+      connection-timeout: 30000 #数据库超时连接时间，默认30秒
+      minimum-idle: 2
+      maximum-pool-size: 10
+    username: root
+    password: rootP@ssword
+    url: jdbc:mysql://39.103.174.18:3306/zyp?allowMultiQueries=true&serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=UTF-8&useSSL=false
+  thymeleaf:
+    cache: false
 log:
   path: /home/zyp/logs/${spring.application.name}
+
 logging:
   config: classpath:logback-spring.xml
   level:
     dao: debug
     org:
       mybatis: debug
+
+mybatis:
+  mapper-locations: classpath*:generator/**/*.xml  #mapper文件包
+  #  config-location: classpath:
+  type-aliases-package: com.work.auth.pojo  #实体类包
+  configuration:
+    map-underscore-to-camel-case: false #    下划线字段返回驼峰
+    call-setters-on-nulls: true #允许返回空字段
+    return-instance-for-empty-row: true
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl #打印SQL语句及日志
+
