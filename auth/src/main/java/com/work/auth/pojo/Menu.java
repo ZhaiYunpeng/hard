@@ -9,10 +9,10 @@ import lombok.EqualsAndHashCode;
 
 /**
  * menu
- * @author ZhaiYunpeng
+ * @author 
  */
-@EqualsAndHashCode(callSuper = true)
 @Data
+@EqualsAndHashCode(callSuper = true)
 public class Menu extends BasePojo implements Serializable {
     /**
      * 主键ID

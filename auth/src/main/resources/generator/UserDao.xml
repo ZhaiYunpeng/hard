@@ -3,65 +3,86 @@
 <mapper namespace="com.work.auth.dao.UserDao">
   <resultMap id="BaseResultMap" type="com.work.auth.pojo.User">
     <id column="id" jdbcType="VARCHAR" property="id" />
-    <result column="menu_name" jdbcType="VARCHAR" property="menuName" />
-    <result column="menu_url" jdbcType="VARCHAR" property="menuUrl" />
-    <result column="menu_des" jdbcType="VARCHAR" property="menuDes" />
-    <result column="parent_id" jdbcType="VARCHAR" property="parentId" />
-    <result column="menu_type" jdbcType="VARCHAR" property="menuType" />
-    <result column="menu_status" jdbcType="VARCHAR" property="menuStatus" />
-    <result column="menu_sort" jdbcType="INTEGER" property="menuSort" />
+    <result column="user_alias" jdbcType="VARCHAR" property="userAlias" />
+    <result column="user_name" jdbcType="VARCHAR" property="userName" />
+    <result column="password" jdbcType="VARCHAR" property="password" />
+    <result column="user_id_no" jdbcType="VARCHAR" property="userIdNo" />
+    <result column="id_no_type" jdbcType="VARCHAR" property="idNoType" />
+    <result column="login_count" jdbcType="INTEGER" property="loginCount" />
+    <result column="last_login_time" jdbcType="TIMESTAMP" property="lastLoginTime" />
+    <result column="last_login_ip" jdbcType="VARCHAR" property="lastLoginIp" />
+    <result column="header_picture_url" jdbcType="VARCHAR" property="headerPictureUrl" />
+    <result column="user_type" jdbcType="VARCHAR" property="userType" />
+    <result column="user_status" jdbcType="VARCHAR" property="userStatus" />
     <result column="create_user_id" jdbcType="VARCHAR" property="createUserId" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="update_user_id" jdbcType="VARCHAR" property="updateUserId" />
     <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
   </resultMap>
   <sql id="Base_Column_List">
-    id, menu_name, menu_url, menu_des, parent_id, menu_type, menu_status, menu_sort, 
-    create_user_id, create_time, update_user_id, update_time
+    id, user_alias, user_name, `password`, user_id_no, id_no_type, login_count, last_login_time, 
+    last_login_ip, header_picture_url, user_type, user_status, create_user_id, create_time, 
+    update_user_id, update_time
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
-    from menu
+    from user
     where id = #{id,jdbcType=VARCHAR}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
-    delete from menu
+    delete from user
     where id = #{id,jdbcType=VARCHAR}
   </delete>
   <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.work.auth.pojo.User" useGeneratedKeys="true">
-    insert into menu (menu_name, menu_url, menu_des, 
-      parent_id, menu_type, menu_status, 
-      menu_sort, create_user_id, create_time, 
-      update_user_id, update_time)
-    values (#{menuName,jdbcType=VARCHAR}, #{menuUrl,jdbcType=VARCHAR}, #{menuDes,jdbcType=VARCHAR}, 
-      #{parentId,jdbcType=VARCHAR}, #{menuType,jdbcType=VARCHAR}, #{menuStatus,jdbcType=VARCHAR}, 
-      #{menuSort,jdbcType=INTEGER}, #{createUserId,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
-      #{updateUserId,jdbcType=VARCHAR}, #{updateTime,jdbcType=TIMESTAMP})
+    insert into user (user_alias, user_name, `password`, 
+      user_id_no, id_no_type, login_count, 
+      last_login_time, last_login_ip, header_picture_url, 
+      user_type, user_status, create_user_id, 
+      create_time, update_user_id, update_time
+      )
+    values (#{userAlias,jdbcType=VARCHAR}, #{userName,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, 
+      #{userIdNo,jdbcType=VARCHAR}, #{idNoType,jdbcType=VARCHAR}, #{loginCount,jdbcType=INTEGER}, 
+      #{lastLoginTime,jdbcType=TIMESTAMP}, #{lastLoginIp,jdbcType=VARCHAR}, #{headerPictureUrl,jdbcType=VARCHAR}, 
+      #{userType,jdbcType=VARCHAR}, #{userStatus,jdbcType=VARCHAR}, #{createUserId,jdbcType=VARCHAR}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{updateUserId,jdbcType=VARCHAR}, #{updateTime,jdbcType=TIMESTAMP}
+      )
   </insert>
   <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.work.auth.pojo.User" useGeneratedKeys="true">
-    insert into menu
+    insert into user
     <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="menuName != null">
-        menu_name,
+      <if test="userAlias != null">
+        user_alias,
       </if>
-      <if test="menuUrl != null">
-        menu_url,
+      <if test="userName != null">
+        user_name,
       </if>
-      <if test="menuDes != null">
-        menu_des,
+      <if test="password != null">
+        `password`,
       </if>
-      <if test="parentId != null">
-        parent_id,
+      <if test="userIdNo != null">
+        user_id_no,
       </if>
-      <if test="menuType != null">
-        menu_type,
+      <if test="idNoType != null">
+        id_no_type,
       </if>
-      <if test="menuStatus != null">
-        menu_status,
+      <if test="loginCount != null">
+        login_count,
       </if>
-      <if test="menuSort != null">
-        menu_sort,
+      <if test="lastLoginTime != null">
+        last_login_time,
+      </if>
+      <if test="lastLoginIp != null">
+        last_login_ip,
+      </if>
+      <if test="headerPictureUrl != null">
+        header_picture_url,
+      </if>
+      <if test="userType != null">
+        user_type,
+      </if>
+      <if test="userStatus != null">
+        user_status,
       </if>
       <if test="createUserId != null">
         create_user_id,
@@ -77,26 +98,38 @@
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="menuName != null">
-        #{menuName,jdbcType=VARCHAR},
+      <if test="userAlias != null">
+        #{userAlias,jdbcType=VARCHAR},
       </if>
-      <if test="menuUrl != null">
-        #{menuUrl,jdbcType=VARCHAR},
+      <if test="userName != null">
+        #{userName,jdbcType=VARCHAR},
       </if>
-      <if test="menuDes != null">
-        #{menuDes,jdbcType=VARCHAR},
+      <if test="password != null">
+        #{password,jdbcType=VARCHAR},
       </if>
-      <if test="parentId != null">
-        #{parentId,jdbcType=VARCHAR},
+      <if test="userIdNo != null">
+        #{userIdNo,jdbcType=VARCHAR},
       </if>
-      <if test="menuType != null">
-        #{menuType,jdbcType=VARCHAR},
+      <if test="idNoType != null">
+        #{idNoType,jdbcType=VARCHAR},
       </if>
-      <if test="menuStatus != null">
-        #{menuStatus,jdbcType=VARCHAR},
+      <if test="loginCount != null">
+        #{loginCount,jdbcType=INTEGER},
       </if>
-      <if test="menuSort != null">
-        #{menuSort,jdbcType=INTEGER},
+      <if test="lastLoginTime != null">
+        #{lastLoginTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lastLoginIp != null">
+        #{lastLoginIp,jdbcType=VARCHAR},
+      </if>
+      <if test="headerPictureUrl != null">
+        #{headerPictureUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="userType != null">
+        #{userType,jdbcType=VARCHAR},
+      </if>
+      <if test="userStatus != null">
+        #{userStatus,jdbcType=VARCHAR},
       </if>
       <if test="createUserId != null">
         #{createUserId,jdbcType=VARCHAR},
@@ -113,28 +146,40 @@
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.work.auth.pojo.User">
-    update menu
+    update user
     <set>
-      <if test="menuName != null">
-        menu_name = #{menuName,jdbcType=VARCHAR},
+      <if test="userAlias != null">
+        user_alias = #{userAlias,jdbcType=VARCHAR},
       </if>
-      <if test="menuUrl != null">
-        menu_url = #{menuUrl,jdbcType=VARCHAR},
+      <if test="userName != null">
+        user_name = #{userName,jdbcType=VARCHAR},
       </if>
-      <if test="menuDes != null">
-        menu_des = #{menuDes,jdbcType=VARCHAR},
+      <if test="password != null">
+        `password` = #{password,jdbcType=VARCHAR},
       </if>
-      <if test="parentId != null">
-        parent_id = #{parentId,jdbcType=VARCHAR},
+      <if test="userIdNo != null">
+        user_id_no = #{userIdNo,jdbcType=VARCHAR},
       </if>
-      <if test="menuType != null">
-        menu_type = #{menuType,jdbcType=VARCHAR},
+      <if test="idNoType != null">
+        id_no_type = #{idNoType,jdbcType=VARCHAR},
       </if>
-      <if test="menuStatus != null">
-        menu_status = #{menuStatus,jdbcType=VARCHAR},
+      <if test="loginCount != null">
+        login_count = #{loginCount,jdbcType=INTEGER},
       </if>
-      <if test="menuSort != null">
-        menu_sort = #{menuSort,jdbcType=INTEGER},
+      <if test="lastLoginTime != null">
+        last_login_time = #{lastLoginTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lastLoginIp != null">
+        last_login_ip = #{lastLoginIp,jdbcType=VARCHAR},
+      </if>
+      <if test="headerPictureUrl != null">
+        header_picture_url = #{headerPictureUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="userType != null">
+        user_type = #{userType,jdbcType=VARCHAR},
+      </if>
+      <if test="userStatus != null">
+        user_status = #{userStatus,jdbcType=VARCHAR},
       </if>
       <if test="createUserId != null">
         create_user_id = #{createUserId,jdbcType=VARCHAR},
@@ -152,14 +197,18 @@
     where id = #{id,jdbcType=VARCHAR}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.work.auth.pojo.User">
-    update menu
-    set menu_name = #{menuName,jdbcType=VARCHAR},
-      menu_url = #{menuUrl,jdbcType=VARCHAR},
-      menu_des = #{menuDes,jdbcType=VARCHAR},
-      parent_id = #{parentId,jdbcType=VARCHAR},
-      menu_type = #{menuType,jdbcType=VARCHAR},
-      menu_status = #{menuStatus,jdbcType=VARCHAR},
-      menu_sort = #{menuSort,jdbcType=INTEGER},
+    update user
+    set user_alias = #{userAlias,jdbcType=VARCHAR},
+      user_name = #{userName,jdbcType=VARCHAR},
+      `password` = #{password,jdbcType=VARCHAR},
+      user_id_no = #{userIdNo,jdbcType=VARCHAR},
+      id_no_type = #{idNoType,jdbcType=VARCHAR},
+      login_count = #{loginCount,jdbcType=INTEGER},
+      last_login_time = #{lastLoginTime,jdbcType=TIMESTAMP},
+      last_login_ip = #{lastLoginIp,jdbcType=VARCHAR},
+      header_picture_url = #{headerPictureUrl,jdbcType=VARCHAR},
+      user_type = #{userType,jdbcType=VARCHAR},
+      user_status = #{userStatus,jdbcType=VARCHAR},
       create_user_id = #{createUserId,jdbcType=VARCHAR},
       create_time = #{createTime,jdbcType=TIMESTAMP},
       update_user_id = #{updateUserId,jdbcType=VARCHAR},

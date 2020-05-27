@@ -8,11 +8,11 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 /**
- * Role
- * @author ZhaiYunpeng
+ * role
+ * @author 
  */
-@EqualsAndHashCode(callSuper = true)
 @Data
+@EqualsAndHashCode(callSuper = true)
 public class Role extends BasePojo implements Serializable {
     /**
      * 主键ID
@@ -20,39 +20,24 @@ public class Role extends BasePojo implements Serializable {
     private String id;
 
     /**
-     * 菜单名
+     * 角色名
      */
-    private String menuName;
+    private String roleName;
 
     /**
-     * 菜单地址
+     * 角色描述
      */
-    private String menuUrl;
+    private String roleDes;
 
     /**
-     * 菜单描述
+     * 角色状态
      */
-    private String menuDes;
+    private String roleStatus;
 
     /**
-     * 父级ID
+     * 角色排序
      */
-    private String parentId;
-
-    /**
-     * 菜单类型0：元素菜单；1：数据菜单
-     */
-    private String menuType;
-
-    /**
-     * 菜单状态0：可用；1：不可用
-     */
-    private String menuStatus;
-
-    /**
-     * 排序
-     */
-    private Integer menuSort;
+    private Integer roleSort;
 
     /**
      * 创建人员ID

@@ -9,10 +9,10 @@ import lombok.EqualsAndHashCode;
 
 /**
  * user
- * @author ZhaiYunpeng
+ * @author 
  */
-@EqualsAndHashCode(callSuper = true)
 @Data
+@EqualsAndHashCode(callSuper = true)
 public class User extends BasePojo implements Serializable {
     /**
      * 主键ID
@@ -20,39 +20,59 @@ public class User extends BasePojo implements Serializable {
     private String id;
 
     /**
-     * 菜单名
+     * 用户别名
      */
-    private String menuName;
+    private String userAlias;
 
     /**
-     * 菜单地址
+     * 用户名
      */
-    private String menuUrl;
+    private String userName;
 
     /**
-     * 菜单描述
+     * 密码
      */
-    private String menuDes;
+    private String password;
 
     /**
-     * 父级ID
+     * 证件号码
      */
-    private String parentId;
+    private String userIdNo;
 
     /**
-     * 菜单类型0：元素菜单；1：数据菜单
+     * 证件类型
      */
-    private String menuType;
+    private String idNoType;
 
     /**
-     * 菜单状态0：可用；1：不可用
+     * 登录次数
      */
-    private String menuStatus;
+    private Integer loginCount;
 
     /**
-     * 排序
+     * 上次登录时间
      */
-    private Integer menuSort;
+    private Date lastLoginTime;
+
+    /**
+     * 上次登录IP
+     */
+    private String lastLoginIp;
+
+    /**
+     * 头像地址
+     */
+    private String headerPictureUrl;
+
+    /**
+     * 用户类型
+     */
+    private String userType;
+
+    /**
+     * 用户状态
+     */
+    private String userStatus;
 
     /**
      * 创建人员ID
