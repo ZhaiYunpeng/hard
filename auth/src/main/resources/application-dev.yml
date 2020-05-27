@@ -1,0 +1,13 @@
+spring:
+  application:
+    name: auth
+  profiles:
+    active: dev
+log:
+  path: /home/zyp/logs/${spring.application.name}
+logging:
+  config: classpath:logback-spring.xml
+  level:
+    dao: debug
+    org:
+      mybatis: debug
