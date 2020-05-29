@@ -3,6 +3,8 @@ spring:
     name: auth
   profiles:
     active: dev
-
+#  thymeleaf:
+#    prefix:
+#    suffix:
 server:
-  port: 18000
+  port: 18080
