@@ -10,16 +10,23 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
+import java.security.Principal;
 
 /**
  * @author ZhaiYunpeng
  */
 @RestController
 @RequestMapping("/api/user")
-@Api(value = "用户API")
+@Api(tags = "用户API")
 public class UserController {
     @Resource
     private UserServer userServer;
+
+    @PostMapping("/getUserInfo")
+    @ApiOperation("获取当前登录用户信息")
+    public Principal getUserInfo(Principal principal){
+        return principal;
+    }
 
     @PostMapping("/getUserInfoById")
     @ApiOperation(value = "根据用户ID查询用户信息")
