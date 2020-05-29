@@ -2,6 +2,7 @@ spring:
   mvc:
 # 应该以什么样的路径来访问静态资源,这表示只有静态资源的访问路径为/static/ 时才会处理
 #  (如http://localhost:8080/static/css/base.css)
+    #展示无效果，详见WebApiConfig
     static-path-pattern: /static/**
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver

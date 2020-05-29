@@ -49,13 +49,15 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-
+        String[] str= new String[]{"/swagger-ui.html","/swagger-resources/**","/images/**","/webjars/**"
+        ,"/v2/api-docs","/configuration/ui","/configuration/security"};
         http.csrf().disable()
                 .httpBasic().authenticationEntryPoint(authenticationEntryPoint)
                 .and()
                 .authorizeRequests()
 
                 .antMatchers("/global/**","/static/**").permitAll()
+//                .antMatchers(str).permitAll()
 
                 .anyRequest()
                 .authenticated()// 其他 url 需要身份认证
@@ -64,8 +66,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 //开启登录
                 .formLogin()
                 // 登录页面
-                .loginPage("/page/login")
-                .successForwardUrl("/page/index")
+                .loginPage("/login")
+                .successForwardUrl("/")
 //                .successHandler(authenticationSuccessHandler) // 登录成功
                 //登录失败
                 .failureHandler(authenticationFailureHandler)
