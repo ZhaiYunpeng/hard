@@ -4,6 +4,9 @@ import com.work.auth.dao.UserDao;
 import com.work.auth.pojo.User;
 import com.work.auth.service.UserServer;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -16,12 +19,19 @@ import java.util.List;
 @Slf4j
 @Service
 @Transactional(rollbackFor = Exception.class)
-public class UserServerImpl implements UserServer {
+public class UserServerImpl implements UserDetailsService,UserServer {
     /**
      * 用户Dao
      */
     @Resource
     private UserDao userDao;
+
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        User user = userDao.selectByUserName(username);
+        return user;
+    }
+
 
     /**
      * 新增用户
@@ -78,4 +88,6 @@ public class UserServerImpl implements UserServer {
     public int updateUser(User user) {
         return userDao.updateByPrimaryKeySelective(user);
     }
+
+
 }

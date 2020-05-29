@@ -1,11 +1,14 @@
 package com.work.auth.pojo;
 
 import java.io.Serializable;
+import java.util.Collection;
 import java.util.Date;
 
 import com.work.auth.base.BasePojo;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 /**
  * user
@@ -13,7 +16,7 @@ import lombok.EqualsAndHashCode;
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
-public class User extends BasePojo implements Serializable {
+public class User extends BasePojo implements UserDetails,Serializable {
     /**
      * 主键ID
      */
@@ -95,4 +98,34 @@ public class User extends BasePojo implements Serializable {
     private Date updateTime;
 
     private static final long serialVersionUID = 1L;
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return null;
+    }
+
+    @Override
+    public String getUsername() {
+        return this.userName;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return false;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return false;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return false;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
+    }
 }

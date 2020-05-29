@@ -18,6 +18,9 @@ public class ResultDto<T> {
     private T data;
     private long total;
 
+    public ResultDto() {
+    }
+
     public ResultDto(int code) {
         this.code = code;
         if(code == 0){
