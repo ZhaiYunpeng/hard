@@ -1,63 +1,70 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.work.auth.dao.RoleMenuConfigDao">
-  <resultMap id="BaseResultMap" type="com.work.auth.pojo.RoleMenuConfig">
-    <id column="id" jdbcType="VARCHAR" property="id" />
-    <result column="role_id" jdbcType="VARCHAR" property="roleId" />
-    <result column="menu_id" jdbcType="VARCHAR" property="menuId" />
-  </resultMap>
-  <sql id="Base_Column_List">
-    id, role_id, menu_id
-  </sql>
-  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
-    select 
-    <include refid="Base_Column_List" />
-    from role_menu_config
-    where id = #{id,jdbcType=VARCHAR}
-  </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
-    delete from role_menu_config
-    where id = #{id,jdbcType=VARCHAR}
-  </delete>
-  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.work.auth.pojo.RoleMenuConfig" useGeneratedKeys="true">
-    insert into role_menu_config (role_id, menu_id)
-    values (#{roleId,jdbcType=VARCHAR}, #{menuId,jdbcType=VARCHAR})
-  </insert>
-  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.work.auth.pojo.RoleMenuConfig" useGeneratedKeys="true">
-    insert into role_menu_config
-    <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="roleId != null">
-        role_id,
-      </if>
-      <if test="menuId != null">
-        menu_id,
-      </if>
-    </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="roleId != null">
-        #{roleId,jdbcType=VARCHAR},
-      </if>
-      <if test="menuId != null">
-        #{menuId,jdbcType=VARCHAR},
-      </if>
-    </trim>
-  </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.work.auth.pojo.RoleMenuConfig">
-    update role_menu_config
-    <set>
-      <if test="roleId != null">
-        role_id = #{roleId,jdbcType=VARCHAR},
-      </if>
-      <if test="menuId != null">
-        menu_id = #{menuId,jdbcType=VARCHAR},
-      </if>
-    </set>
-    where id = #{id,jdbcType=VARCHAR}
-  </update>
-  <update id="updateByPrimaryKey" parameterType="com.work.auth.pojo.RoleMenuConfig">
-    update role_menu_config
-    set role_id = #{roleId,jdbcType=VARCHAR},
-      menu_id = #{menuId,jdbcType=VARCHAR}
-    where id = #{id,jdbcType=VARCHAR}
-  </update>
+    <resultMap id="BaseResultMap" type="com.work.auth.pojo.RoleMenuConfig">
+        <id column="id" jdbcType="VARCHAR" property="id"/>
+        <result column="role_id" jdbcType="VARCHAR" property="roleId"/>
+        <result column="menu_id" jdbcType="VARCHAR" property="menuId"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        id, role_id, menu_id
+    </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from role_menu_config
+        where id = #{id,jdbcType=VARCHAR}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+        delete
+        from role_menu_config
+        where id = #{id,jdbcType=VARCHAR}
+    </delete>
+    <insert id="insert" parameterType="com.work.auth.pojo.RoleMenuConfig">
+        insert into role_menu_config (id, role_id, menu_id)
+        values (#{id,jdbcType=VARCHAR}, #{roleId,jdbcType=VARCHAR}, #{menuId,jdbcType=VARCHAR})
+    </insert>
+    <insert id="insertSelective" parameterType="com.work.auth.pojo.RoleMenuConfig">
+        insert into role_menu_config
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="roleId != null">
+                role_id,
+            </if>
+            <if test="menuId != null">
+                menu_id,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=VARCHAR},
+            </if>
+            <if test="roleId != null">
+                #{roleId,jdbcType=VARCHAR},
+            </if>
+            <if test="menuId != null">
+                #{menuId,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.work.auth.pojo.RoleMenuConfig">
+        update role_menu_config
+        <set>
+            <if test="roleId != null">
+                role_id = #{roleId,jdbcType=VARCHAR},
+            </if>
+            <if test="menuId != null">
+                menu_id = #{menuId,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=VARCHAR}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.work.auth.pojo.RoleMenuConfig">
+        update role_menu_config
+        set role_id = #{roleId,jdbcType=VARCHAR},
+            menu_id = #{menuId,jdbcType=VARCHAR}
+        where id = #{id,jdbcType=VARCHAR}
+    </update>
 </mapper>

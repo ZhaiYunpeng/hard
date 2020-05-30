@@ -1,219 +1,221 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.work.auth.dao.UserDao">
-  <resultMap id="BaseResultMap" type="com.work.auth.pojo.User">
-    <id column="id" jdbcType="VARCHAR" property="id" />
-    <result column="user_alias" jdbcType="VARCHAR" property="userAlias" />
-    <result column="user_name" jdbcType="VARCHAR" property="userName" />
-    <result column="password" jdbcType="VARCHAR" property="password" />
-    <result column="user_id_no" jdbcType="VARCHAR" property="userIdNo" />
-    <result column="id_no_type" jdbcType="VARCHAR" property="idNoType" />
-    <result column="login_count" jdbcType="INTEGER" property="loginCount" />
-    <result column="last_login_time" jdbcType="TIMESTAMP" property="lastLoginTime" />
-    <result column="last_login_ip" jdbcType="VARCHAR" property="lastLoginIp" />
-    <result column="header_picture_url" jdbcType="VARCHAR" property="headerPictureUrl" />
-    <result column="user_type" jdbcType="VARCHAR" property="userType" />
-    <result column="user_status" jdbcType="VARCHAR" property="userStatus" />
-    <result column="create_user_id" jdbcType="VARCHAR" property="createUserId" />
-    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
-    <result column="update_user_id" jdbcType="VARCHAR" property="updateUserId" />
-    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
-  </resultMap>
-  <sql id="Base_Column_List">
-    id, user_alias, user_name, `password`, user_id_no, id_no_type, login_count, last_login_time, 
+    <resultMap id="BaseResultMap" type="com.work.auth.pojo.User">
+        <id column="id" jdbcType="VARCHAR" property="id"/>
+        <result column="user_alias" jdbcType="VARCHAR" property="userAlias"/>
+        <result column="user_name" jdbcType="VARCHAR" property="userName"/>
+        <result column="password" jdbcType="VARCHAR" property="password"/>
+        <result column="user_id_no" jdbcType="VARCHAR" property="userIdNo"/>
+        <result column="id_no_type" jdbcType="VARCHAR" property="idNoType"/>
+        <result column="login_count" jdbcType="INTEGER" property="loginCount"/>
+        <result column="last_login_time" jdbcType="TIMESTAMP" property="lastLoginTime"/>
+        <result column="last_login_ip" jdbcType="VARCHAR" property="lastLoginIp"/>
+        <result column="header_picture_url" jdbcType="VARCHAR" property="headerPictureUrl"/>
+        <result column="user_type" jdbcType="VARCHAR" property="userType"/>
+        <result column="user_status" jdbcType="VARCHAR" property="userStatus"/>
+        <result column="create_user_id" jdbcType="VARCHAR" property="createUserId"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="update_user_id" jdbcType="VARCHAR" property="updateUserId"/>
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        id, user_alias, user_name, `password`, user_id_no, id_no_type, login_count, last_login_time,
     last_login_ip, header_picture_url, user_type, user_status, create_user_id, create_time, 
     update_user_id, update_time
-  </sql>
-  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
-    select
-    <include refid="Base_Column_List" />
-    from user
-    where id = #{id,jdbcType=VARCHAR}
-  </select>
-  <select id="selectByUserName" parameterType="string" resultMap="BaseResultMap">
-    select <include refid="Base_Column_List" />
-    from user u
-    where u.user_alias = #{username,jdbcType=VARCHAR}
-  </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
-    delete from user
-    where id = #{id,jdbcType=VARCHAR}
-  </delete>
-  <insert id="insert"  parameterType="com.work.auth.pojo.User"  >
-    insert into user (user_alias, user_name, `password`, 
-      user_id_no, id_no_type, login_count, 
-      last_login_time, last_login_ip, header_picture_url, 
-      user_type, user_status, create_user_id, 
-      create_time, update_user_id, update_time
-      )
-    values (#{userAlias,jdbcType=VARCHAR}, #{userName,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, 
-      #{userIdNo,jdbcType=VARCHAR}, #{idNoType,jdbcType=VARCHAR}, #{loginCount,jdbcType=INTEGER}, 
-      #{lastLoginTime,jdbcType=TIMESTAMP}, #{lastLoginIp,jdbcType=VARCHAR}, #{headerPictureUrl,jdbcType=VARCHAR}, 
-      #{userType,jdbcType=VARCHAR}, #{userStatus,jdbcType=VARCHAR}, #{createUserId,jdbcType=VARCHAR}, 
-      sysdate(), #{updateUserId,jdbcType=VARCHAR}, #{updateTime,jdbcType=TIMESTAMP}
-      )
-  </insert>
-  <insert id="insertSelective" parameterType="com.work.auth.pojo.User"  >
-    insert into user
-    <trim prefix="(" suffix=")" suffixOverrides=",">
-        id,
-      <if test="userAlias != null">
-        user_alias,
-      </if>
-      <if test="userName != null">
-        user_name,
-      </if>
-      <if test="password != null">
-        `password`,
-      </if>
-      <if test="userIdNo != null">
-        user_id_no,
-      </if>
-      <if test="idNoType != null">
-        id_no_type,
-      </if>
-      <if test="loginCount != null">
-        login_count,
-      </if>
-      <if test="lastLoginTime != null">
-        last_login_time,
-      </if>
-      <if test="lastLoginIp != null">
-        last_login_ip,
-      </if>
-      <if test="headerPictureUrl != null">
-        header_picture_url,
-      </if>
-      <if test="userType != null">
-        user_type,
-      </if>
-      <if test="userStatus != null">
-        user_status,
-      </if>
-      <if test="createUserId != null">
-        create_user_id,
-      </if>
-        create_time,
-      <if test="updateUserId != null">
-        update_user_id,
-      </if>
-      <if test="updateTime != null">
-        update_time,
-      </if>
-    </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides=",">
-      #{id,jdbcType=VARCHAR},
-      <if test="userAlias != null">
-        #{userAlias,jdbcType=VARCHAR},
-      </if>
-      <if test="userName != null">
-        #{userName,jdbcType=VARCHAR},
-      </if>
-      <if test="password != null">
-        #{password,jdbcType=VARCHAR},
-      </if>
-      <if test="userIdNo != null">
-        #{userIdNo,jdbcType=VARCHAR},
-      </if>
-      <if test="idNoType != null">
-        #{idNoType,jdbcType=VARCHAR},
-      </if>
-      <if test="loginCount != null">
-        #{loginCount,jdbcType=INTEGER},
-      </if>
-      <if test="lastLoginTime != null">
-        #{lastLoginTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="lastLoginIp != null">
-        #{lastLoginIp,jdbcType=VARCHAR},
-      </if>
-      <if test="headerPictureUrl != null">
-        #{headerPictureUrl,jdbcType=VARCHAR},
-      </if>
-      <if test="userType != null">
-        #{userType,jdbcType=VARCHAR},
-      </if>
-      <if test="userStatus != null">
-        #{userStatus,jdbcType=VARCHAR},
-      </if>
-      <if test="createUserId != null">
-        #{createUserId,jdbcType=VARCHAR},
-      </if>
-        sysdate()
-      <if test="updateUserId != null">
-        #{updateUserId,jdbcType=VARCHAR},
-      </if>
-      <if test="updateTime != null">
-        #{updateTime,jdbcType=TIMESTAMP},
-      </if>
-    </trim>
-  </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.work.auth.pojo.User">
-    update user
-    <set>
-      <if test="userAlias != null">
-        user_alias = #{userAlias,jdbcType=VARCHAR},
-      </if>
-      <if test="userName != null">
-        user_name = #{userName,jdbcType=VARCHAR},
-      </if>
-      <if test="password != null">
-        `password` = #{password,jdbcType=VARCHAR},
-      </if>
-      <if test="userIdNo != null">
-        user_id_no = #{userIdNo,jdbcType=VARCHAR},
-      </if>
-      <if test="idNoType != null">
-        id_no_type = #{idNoType,jdbcType=VARCHAR},
-      </if>
-      <if test="loginCount != null">
-        login_count = #{loginCount,jdbcType=INTEGER},
-      </if>
-      <if test="lastLoginTime != null">
-        last_login_time = #{lastLoginTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="lastLoginIp != null">
-        last_login_ip = #{lastLoginIp,jdbcType=VARCHAR},
-      </if>
-      <if test="headerPictureUrl != null">
-        header_picture_url = #{headerPictureUrl,jdbcType=VARCHAR},
-      </if>
-      <if test="userType != null">
-        user_type = #{userType,jdbcType=VARCHAR},
-      </if>
-      <if test="userStatus != null">
-        user_status = #{userStatus,jdbcType=VARCHAR},
-      </if>
-      <if test="createUserId != null">
-        create_user_id = #{createUserId,jdbcType=VARCHAR},
-      </if>
-      <if test="createTime != null">
-        create_time = #{createTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="updateUserId != null">
-        update_user_id = #{updateUserId,jdbcType=VARCHAR},
-      </if>
-        update_time = sysdate(),
-    </set>
-    where id = #{id,jdbcType=VARCHAR}
-  </update>
-  <update id="updateByPrimaryKey" parameterType="com.work.auth.pojo.User">
-    update user
-    set user_alias = #{userAlias,jdbcType=VARCHAR},
-      user_name = #{userName,jdbcType=VARCHAR},
-      `password` = #{password,jdbcType=VARCHAR},
-      user_id_no = #{userIdNo,jdbcType=VARCHAR},
-      id_no_type = #{idNoType,jdbcType=VARCHAR},
-      login_count = #{loginCount,jdbcType=INTEGER},
-      last_login_time = #{lastLoginTime,jdbcType=TIMESTAMP},
-      last_login_ip = #{lastLoginIp,jdbcType=VARCHAR},
-      header_picture_url = #{headerPictureUrl,jdbcType=VARCHAR},
-      user_type = #{userType,jdbcType=VARCHAR},
-      user_status = #{userStatus,jdbcType=VARCHAR},
-      create_user_id = #{createUserId,jdbcType=VARCHAR},
-      create_time = #{createTime,jdbcType=TIMESTAMP},
-      update_user_id = #{updateUserId,jdbcType=VARCHAR},
-      update_time = sysdate()
-    where id = #{id,jdbcType=VARCHAR}
-  </update>
+    </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from user
+        where id = #{id,jdbcType=VARCHAR}
+    </select>
+    <select id="selectByUserName" parameterType="string" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from user u
+        where u.user_alias = #{username,jdbcType=VARCHAR}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+        delete
+        from user
+        where id = #{id,jdbcType=VARCHAR}
+    </delete>
+    <insert id="insert" parameterType="com.work.auth.pojo.User">
+        insert into user (id, user_alias, user_name, `password`,
+                          user_id_no, id_no_type, login_count,
+                          last_login_time, last_login_ip, header_picture_url,
+                          user_type, user_status, create_user_id,
+                          create_time, update_user_id, update_time)
+        values (#{id,jdbcType=VARCHAR}, #{userAlias,jdbcType=VARCHAR}, #{userName,jdbcType=VARCHAR},
+                #{password,jdbcType=VARCHAR},
+                #{userIdNo,jdbcType=VARCHAR}, #{idNoType,jdbcType=VARCHAR}, #{loginCount,jdbcType=INTEGER},
+                #{lastLoginTime,jdbcType=TIMESTAMP}, #{lastLoginIp,jdbcType=VARCHAR},
+                #{headerPictureUrl,jdbcType=VARCHAR},
+                #{userType,jdbcType=VARCHAR}, #{userStatus,jdbcType=VARCHAR}, #{createUserId,jdbcType=VARCHAR},
+                sysdate(), #{updateUserId,jdbcType=VARCHAR}, #{updateTime,jdbcType=TIMESTAMP})
+    </insert>
+    <insert id="insertSelective" parameterType="com.work.auth.pojo.User">
+        insert into user
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            id,
+            <if test="userAlias != null">
+                user_alias,
+            </if>
+            <if test="userName != null">
+                user_name,
+            </if>
+            <if test="password != null">
+                `password`,
+            </if>
+            <if test="userIdNo != null">
+                user_id_no,
+            </if>
+            <if test="idNoType != null">
+                id_no_type,
+            </if>
+            <if test="loginCount != null">
+                login_count,
+            </if>
+            <if test="lastLoginTime != null">
+                last_login_time,
+            </if>
+            <if test="lastLoginIp != null">
+                last_login_ip,
+            </if>
+            <if test="headerPictureUrl != null">
+                header_picture_url,
+            </if>
+            <if test="userType != null">
+                user_type,
+            </if>
+            <if test="userStatus != null">
+                user_status,
+            </if>
+            <if test="createUserId != null">
+                create_user_id,
+            </if>
+            create_time,
+            <if test="updateUserId != null">
+                update_user_id,
+            </if>
+            <if test="updateTime != null">
+                update_time,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            #{id,jdbcType=VARCHAR},
+            <if test="userAlias != null">
+                #{userAlias,jdbcType=VARCHAR},
+            </if>
+            <if test="userName != null">
+                #{userName,jdbcType=VARCHAR},
+            </if>
+            <if test="password != null">
+                #{password,jdbcType=VARCHAR},
+            </if>
+            <if test="userIdNo != null">
+                #{userIdNo,jdbcType=VARCHAR},
+            </if>
+            <if test="idNoType != null">
+                #{idNoType,jdbcType=VARCHAR},
+            </if>
+            <if test="loginCount != null">
+                #{loginCount,jdbcType=INTEGER},
+            </if>
+            <if test="lastLoginTime != null">
+                #{lastLoginTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="lastLoginIp != null">
+                #{lastLoginIp,jdbcType=VARCHAR},
+            </if>
+            <if test="headerPictureUrl != null">
+                #{headerPictureUrl,jdbcType=VARCHAR},
+            </if>
+            <if test="userType != null">
+                #{userType,jdbcType=VARCHAR},
+            </if>
+            <if test="userStatus != null">
+                #{userStatus,jdbcType=VARCHAR},
+            </if>
+            <if test="createUserId != null">
+                #{createUserId,jdbcType=VARCHAR},
+            </if>
+            sysdate()
+            <if test="updateUserId != null">
+                #{updateUserId,jdbcType=VARCHAR},
+            </if>
+            <if test="updateTime != null">
+                #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.work.auth.pojo.User">
+        update user
+        <set>
+            <if test="userAlias != null">
+                user_alias = #{userAlias,jdbcType=VARCHAR},
+            </if>
+            <if test="userName != null">
+                user_name = #{userName,jdbcType=VARCHAR},
+            </if>
+            <if test="password != null">
+                `password` = #{password,jdbcType=VARCHAR},
+            </if>
+            <if test="userIdNo != null">
+                user_id_no = #{userIdNo,jdbcType=VARCHAR},
+            </if>
+            <if test="idNoType != null">
+                id_no_type = #{idNoType,jdbcType=VARCHAR},
+            </if>
+            <if test="loginCount != null">
+                login_count = #{loginCount,jdbcType=INTEGER},
+            </if>
+            <if test="lastLoginTime != null">
+                last_login_time = #{lastLoginTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="lastLoginIp != null">
+                last_login_ip = #{lastLoginIp,jdbcType=VARCHAR},
+            </if>
+            <if test="headerPictureUrl != null">
+                header_picture_url = #{headerPictureUrl,jdbcType=VARCHAR},
+            </if>
+            <if test="userType != null">
+                user_type = #{userType,jdbcType=VARCHAR},
+            </if>
+            <if test="userStatus != null">
+                user_status = #{userStatus,jdbcType=VARCHAR},
+            </if>
+            <if test="createUserId != null">
+                create_user_id = #{createUserId,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateUserId != null">
+                update_user_id = #{updateUserId,jdbcType=VARCHAR},
+            </if>
+            update_time = sysdate(),
+        </set>
+        where id = #{id,jdbcType=VARCHAR}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.work.auth.pojo.User">
+        update user
+        set user_alias         = #{userAlias,jdbcType=VARCHAR},
+            user_name          = #{userName,jdbcType=VARCHAR},
+            `password`         = #{password,jdbcType=VARCHAR},
+            user_id_no         = #{userIdNo,jdbcType=VARCHAR},
+            id_no_type         = #{idNoType,jdbcType=VARCHAR},
+            login_count        = #{loginCount,jdbcType=INTEGER},
+            last_login_time    = #{lastLoginTime,jdbcType=TIMESTAMP},
+            last_login_ip      = #{lastLoginIp,jdbcType=VARCHAR},
+            header_picture_url = #{headerPictureUrl,jdbcType=VARCHAR},
+            user_type          = #{userType,jdbcType=VARCHAR},
+            user_status        = #{userStatus,jdbcType=VARCHAR},
+            create_user_id     = #{createUserId,jdbcType=VARCHAR},
+            create_time        = #{createTime,jdbcType=TIMESTAMP},
+            update_user_id     = #{updateUserId,jdbcType=VARCHAR},
+            update_time        = sysdate()
+        where id = #{id,jdbcType=VARCHAR}
+    </update>
 </mapper>

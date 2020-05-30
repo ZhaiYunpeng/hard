@@ -9,6 +9,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 
 /**
  * 开启 SpringSecurity注解
+ *
  * @author ZhaiYunpeng
  */
 @Configuration
@@ -49,14 +50,15 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        String[] str= new String[]{"/swagger-ui.html","/swagger-resources/**","/images/**","/webjars/**"
-        ,"/v2/api-docs","/configuration/ui","/configuration/security"};
+        String[] str = new String[]{"/swagger-ui.html", "/swagger-resources/**", "/images/**", "/webjars/**"
+                , "/v2/api-docs", "/configuration/ui", "/configuration/security"};
+
         http.csrf().disable()
                 .httpBasic().authenticationEntryPoint(authenticationEntryPoint)
                 .and()
                 .authorizeRequests()
 
-                .antMatchers("/global/**","/static/**").permitAll()
+                .antMatchers("/global/**", "/static/**").permitAll()
 //                .antMatchers(str).permitAll()
 
                 .anyRequest()
@@ -77,7 +79,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .logout()
 //                .logoutSuccessHandler(logoutSuccessHandler)
                 .permitAll();
-
+        http.headers().frameOptions().sameOrigin();
         // 无权访问 JSON 格式的数据
 //        http.exceptionHandling().accessDeniedHandler(accessDeniedHandler);
 
