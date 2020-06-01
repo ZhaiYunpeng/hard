@@ -36,6 +36,29 @@
         from user u
         where u.user_alias = #{username,jdbcType=VARCHAR}
     </select>
+    <!--   条件查询用户 -->
+    <select id="selectByParamsAndPage" parameterType="com.work.auth.pojo.User" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from user
+        <where>
+            <if test="userAlias != null and userAlias != ''">
+                and user_alias like "%"#{userAlias,jdbcType=VARCHAR}"%"
+            </if>
+            <if test="userName != null and userName != ''">
+                and user_name like "%"#{userName,jdbcType=VARCHAR}"%"
+            </if>
+            <if test="userIdNo != null and userIdNo != ''">
+                and user_id_no like "%"#{userIdNo,jdbcType=VARCHAR}"%"
+            </if>
+            <if test="userType != null and userType != ''">
+                and user_type = #{userType,jdbcType=VARCHAR}
+            </if>
+            <if test="userStatus != null and userStatus != ''">
+                and user_status = #{userStatus,jdbcType=VARCHAR}
+            </if>
+        </where>
+    </select>
     <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
         delete
         from user

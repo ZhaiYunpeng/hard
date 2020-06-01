@@ -36,7 +36,7 @@ public class User extends BasePojo implements UserDetails, Serializable {
     /**
      * 用户名
      */
-    @ApiModelProperty(value = "用户名")
+    @ApiModelProperty(value = "用户真实姓名")
     private String userName;
 
     /**

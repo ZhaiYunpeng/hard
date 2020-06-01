@@ -5,6 +5,7 @@ import org.springframework.context.annotation.Configuration;
 import springfox.documentation.builders.ApiInfoBuilder;
 import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
+import springfox.documentation.service.ApiInfo;
 import springfox.documentation.service.Contact;
 import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.plugins.Docket;
@@ -19,17 +20,19 @@ public class SwaggerConfig {
     @Bean
     public Docket createRestApi() {
         return new Docket(DocumentationType.SWAGGER_2)
-                .pathMapping("/")
-                .select()
+                .apiInfo(setApiInfo()).select()
                 .apis(RequestHandlerSelectors.basePackage("com.work.auth.controller"))
                 .paths(PathSelectors.any())
-                .build().apiInfo(new ApiInfoBuilder()
-                        .title("SpringBoot整合Swagger")
-                        .description("SpringBoot整合Swagger，详细信息......")
-                        .version("1.0")
-                        .contact(new Contact("Author", "", "azhaiyunpeng@263.com"))
-                        .license("The Apache License")
-                        .licenseUrl("http://www.baidu.com")
-                        .build());
+                .build();
+    }
+    private ApiInfo setApiInfo() {
+        return new ApiInfoBuilder()
+                .title("SpringBoot整合Swagger")
+                .description("SpringBoot整合Swagger，详细信息......")
+                .version("1.0")
+                .contact(new Contact("Author", "", "azhaiyunpeng@263.com"))
+                .license("The Apache License")
+                .licenseUrl("http://www.baidu.com")
+                .build();
     }
 }

@@ -1,5 +1,6 @@
 package com.work.auth.service;
 
+import com.github.pagehelper.PageInfo;
 import com.work.auth.pojo.User;
 
 import java.util.List;
@@ -35,10 +36,12 @@ public interface UserServer {
     /**
      * 根据参数查询用户
      *
-     * @param user Params
+     * @param user     查询参数
+     * @param pageNum  页数
+     * @param pageSize 每页条数
      * @return List
      */
-    List<User> selectUserByParams(User user);
+    PageInfo<User> selectUserByParams(User user, int pageNum, int pageSize);
 
     /**
      * 更新用户

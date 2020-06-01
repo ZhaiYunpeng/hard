@@ -1,7 +1,7 @@
 spring:
   mvc:
-# 应该以什么样的路径来访问静态资源,这表示只有静态资源的访问路径为/static/ 时才会处理
-#  (如http://localhost:8080/static/css/base.css)
+    # 应该以什么样的路径来访问静态资源,这表示只有静态资源的访问路径为/static/ 时才会处理
+    #  (如http://localhost:8080/static/css/base.css)
     #展示无效果，详见WebApiConfig
     static-path-pattern: /static/**
   datasource:
@@ -15,6 +15,9 @@ spring:
     url: jdbc:mysql://39.103.174.18:3306/zyp?allowMultiQueries=true&serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=UTF-8&useSSL=false
   thymeleaf:
     cache: false
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: GMT+8
 log:
   path: /home/zyp/logs/${spring.application.name}
 

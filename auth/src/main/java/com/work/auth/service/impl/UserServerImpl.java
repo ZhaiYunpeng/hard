@@ -1,5 +1,7 @@
 package com.work.auth.service.impl;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.work.auth.dao.UserDao;
 import com.work.auth.pojo.User;
 import com.work.auth.service.UserServer;
@@ -19,7 +21,7 @@ import java.util.List;
 @Slf4j
 @Service
 @Transactional(rollbackFor = Exception.class)
-public class UserServerImpl implements UserDetailsService,UserServer {
+public class UserServerImpl implements UserDetailsService, UserServer {
     /**
      * 用户Dao
      */
@@ -57,6 +59,17 @@ public class UserServerImpl implements UserDetailsService,UserServer {
     }
 
     /**
+     * 更新用户
+     *
+     * @param user Entity
+     * @return int
+     */
+    @Override
+    public int updateUser(User user) {
+        return userDao.updateByPrimaryKeySelective(user);
+    }
+
+    /**
      * 根据ID查询用户
      *
      * @param id ID
@@ -70,23 +83,23 @@ public class UserServerImpl implements UserDetailsService,UserServer {
     /**
      * 根据参数查询用户
      *
-     * @param user Params
+     * @param user     查询参数
+     * @param pageNum  页数
+     * @param pageSize 每页条数
      * @return List
      */
     @Override
-    public List<User> selectUserByParams(User user) {
-        return null;
-    }
-
-    /**
-     * 更新用户
-     *
-     * @param user Entity
-     * @return int
-     */
-    @Override
-    public int updateUser(User user) {
-        return userDao.updateByPrimaryKeySelective(user);
+    public PageInfo<User> selectUserByParams(User user, int pageNum, int pageSize) {
+        if (pageNum == 0) {
+            pageNum = 1;
+        }
+        if (pageSize == 0) {
+            pageSize = 10;
+        }
+        PageHelper.startPage(pageNum, pageSize);
+        List<User> users = userDao.selectByParamsAndPage(user);
+        PageInfo<User> pageInfo = new PageInfo<>(users);
+        return pageInfo;
     }
 
 
