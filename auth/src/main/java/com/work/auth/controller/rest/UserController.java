@@ -1,4 +1,4 @@
-package com.work.auth.controller;
+package com.work.auth.controller.rest;
 
 import com.github.pagehelper.PageInfo;
 import com.work.auth.base.BaseController;
