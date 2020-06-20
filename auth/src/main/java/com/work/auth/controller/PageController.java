@@ -15,4 +15,9 @@ public class PageController {
     public String getPage(@PathVariable String pageName) {
         return "systemPage/" + pageName;
     }
+
+    @RequestMapping("/view/{pageName}")
+    public String getView(@PathVariable String pageName) {
+        return "view/" + pageName;
+    }
 }

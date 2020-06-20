@@ -13,7 +13,7 @@
         <div class="layui-logo">LayUI管理系统</div>
         <!-- 头部区域（可配合layui已有的水平导航） -->
         <ul class="layui-nav layui-layout-left">
-            <li class="layui-nav-item"><a href="">控制台</a></li>
+            <li class="layui-nav-item"><a href="/page/view/console" target="main_ifm">控制台</a></li>
             <li class="layui-nav-item"><a href="">商品管理</a></li>
             <li class="layui-nav-item"><a href="">用户</a></li>
             <li class="layui-nav-item">
@@ -49,7 +49,7 @@
                     <dl class="layui-nav-child">
                         <dd><a href="/page/systemPage/user" target="main_ifm">User</a></dd>
                         <dd><a href="/page/systemPage/role" target="main_ifm">Role</a></dd>
-                        <dd><a href="javascript:;" onclick="">列表三</a></dd>
+                        <dd><a href="/page/systemPage/webSocket" target="main_ifm">WebSocket</a></dd>
                         <dd><a href="">超链接</a></dd>
                     </dl>
                 </li>
@@ -69,8 +69,10 @@
 
     <div class="layui-body">
         <!-- 内容主体区域 -->
-<!--        <div style="padding: 15px;">内容主体区域</div>-->
-        <iframe name="main_ifm" id="iframeContent" style="width: 100%; min-height: 550px;" scrolling="no" frameborder="no" src=""></iframe></div>
+        <!--        <div style="padding: 15px;">内容主体区域</div>-->
+        <iframe name="main_ifm" id="iframeContent" style="width: 100%; min-height: 550px;" scrolling="no"
+                frameborder="no" src=""></iframe>
+    </div>
 
     <div class="layui-footer">
         <!-- 底部固定区域 -->
