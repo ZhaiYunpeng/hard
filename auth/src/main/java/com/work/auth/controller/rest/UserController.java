@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
 import java.security.Principal;
+import java.util.List;
 
 /**
  * @author ZhaiYunpeng
@@ -49,9 +50,18 @@ public class UserController extends BaseController {
     }
     @PostMapping("/selectUserByParams")
     @ApiOperation(value = "根据参数查询用户")
-    public PageInfo<User> selectUserByParams(User user,int pageNum,int pageSize){
+    public ResultDto<List<User>> selectUserByParams(User user,int page,int limit){
         String currentUserId = super.getRequestIp();
-        System.out.println(currentUserId);
-        return userServer.selectUserByParams(user, pageNum, pageSize);
+        PageInfo<User> userPageInfo = userServer.selectUserByParams(user, page, limit);
+        List<User> list = userPageInfo.getList();
+        return new ResultDto<>(list);
     }
+
+//    @PostMapping("/selectUserByParams")
+//    @ApiOperation(value = "根据参数查询用户")
+//    public PageInfo<User> selectUserByParams(User user,int page,int limit){
+//        String currentUserId = super.getRequestIp();
+//        System.out.println(currentUserId);
+//        return userServer.selectUserByParams(user, page, limit);
+//    }
 }

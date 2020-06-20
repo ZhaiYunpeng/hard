@@ -4,296 +4,238 @@
     <meta charset="UTF-8">
     <title>User</title>
     <link rel="stylesheet" href="/static/layui/css/layui.css" media="all">
+
 </head>
 <body>
-<div class="layui-row">
+<script src="/static/layui/layui.js"></script>
+<script src="/static/js/jquery-3.5.0.min.js"></script>
+
+
+<div class="demoTable">
     <!-- 查询条件的form -->
     <form class="layui-form layui-col-md12 x-so" id="queryUserParamsForm">
-        <!-- 隐藏当前页和页号 -->
-        <input type="hidden" name="pageNum">
-        <input type="hidden" name="pageSize">
+        <div class="layui-inline">
+            <label class="layui-form-label">用户别名</label>
+            <div class="layui-input-block">
+                <input type="text" id="userAlias" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-inline">
+            <label class="layui-form-label">用户名</label>
+            <div class="layui-input-block">
+                <input type="text" id="userName" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-inline">
+            <label class="layui-form-label">用户状态</label>
+            <div class="layui-input-block">
+                <select id="userStatus">
+                    <option value=""></option>
+                    <option value="0">正常</option>
+                    <option value="1">冻结</option>
+                </select>
+            </div>
+        </div>
 
-        <div class="layui-form-item">
-            <div class="layui-inline">
-                <label class="layui-form-label">用户别名</label>
-                <div class="layui-input-block">
-                    <input type="text" name="userAlias" autocomplete="off" class="layui-input">
-                </div>
-            </div>
-            <div class="layui-inline">
-                <label class="layui-form-label">用户名</label>
-                <div class="layui-input-inline">
-                    <input type="text" name="userName" autocomplete="off" class="layui-input">
-                </div>
-            </div>
-            <div class="layui-inline">
-                <label class="layui-form-label">用户状态</label>
-                <div class="layui-input-inline">
-                    <select name="userStatus">
-                        <option value=""></option>
-                        <option value="0">正常</option>
-                        <option value="1">冻结</option>
-                    </select>
-                </div>
-            </div>
-
-            <div class="layui-inline">
-                <div class="layui-input-block">
-                    <button type="button" class="layui-btn" onclick="queryUserFYBtn()" lay-submit=""
-                            lay-filter="demo1"><i class="layui-icon layui-icon-search"></i></button>
-                    <button type="button" class="layui-btn layui-btn-normal" onclick='clearQueryCondition(this)'><i
-                            class="layui-icon layui-icon-refresh-3"></i></button>
-                    <button type="button" class="layui-btn layui-btn-normal" onclick='addUserFun()'><i
-                            class="layui-icon layui-icon-add-circle-fine"></i></button>
-                </div>
+        <div class="layui-inline">
+            <div class="layui-input-block">
+                <button type="button" data-type="reload" class="layui-btn" id="queryUserByParams"><i
+                        class="layui-icon layui-icon-search"></i></button>
+                <button type="button" class="layui-btn layui-btn-normal" onclick='clearQueryCondition(this)'><i
+                        class="layui-icon layui-icon-refresh-3"></i></button>
             </div>
         </div>
     </form>
 </div>
 
-<!--表格内容-->
-<table class="layui-table">
-    <thead>
-    <tr>
-        <th></th>
-        <th>序号</th>
-        <th>用户昵称</th>
-        <th>用户真实姓名</th>
-        <th>证件类型</th>
-        <th>证件号码</th>
-        <th>登录次数</th>
-        <th>上次登录时间</th>
-        <th>上次登录IP</th>
-        <th>用户类型</th>
-        <th>用户状态</th>
-        <th>创建时间</th>
-        <th>修改时间</th>
-        <th>操作</th>
-    </tr>
-    </thead>
-    <tbody id="table_user_Tbody">
-    <!--动态填充数据-->
-    </tbody>
-</table>
-<!--end 表格内容-->
-
-<!--分页-->
-<div id="pageDiv"></div>
-<!--end 分页-->
-
-<div class="layui-row" id="addUserLayer" style="display: none;">
-    <form class="layui-form layui-from-pane" id="addUserForm" style="margin-top: 20px">
-            <div class="layui-form-item">
-                <label class="layui-form-label">用户昵称</label>
-                <div class="layui-input-block">
-                    <input id="userAlias" type="text" name="userAlias" required
-                           lay-verify="required" autocomplete="off" placeholder="用户昵称" class="layui-input">
-                </div>
-            </div>
-
-            <div class="layui-form-item">
-                <label class="layui-form-label">用户真实姓名</label>
-                <div class="layui-input-block">
-                    <input id="userName" type="text" name="userName"
-                           autocomplete="off" placeholder="用户真实姓名" class="layui-input">
-                </div>
-            </div>
-            <div class="layui-form-item">
-                <label class="layui-form-label">证件类型</label>
-                <div class="layui-input-block">
-                    <select name="idNoType">
-                        <option value=""></option>
-                        <option value="0">身份证号码</option>
-                        <option value="1">社保卡账号</option>
-                    </select>
-                </div>
-            </div>
-            <div class="layui-form-item">
-                <label class="layui-form-label">证件号码</label>
-                <div class="layui-input-block">
-                    <input id="userIdNo" type="text" name="userIdNo"
-                           autocomplete="off" placeholder="证件号码" class="layui-input">
-                </div>
-            </div>
-            <div class="layui-form-item">
-                <label class="layui-form-label">用户类型</label>
-                <div class="layui-input-block">
-                    <input type="radio" name="userType" value="0" title="管理员">
-                    <input type="radio" name="userType" value="1" title="Developer" checked>
-                </div>
-            </div>
-            <div class="layui-form-item">
-                <label class="layui-form-label">是否可用</label>
-                <div class="layui-input-block">
-                    <input type="radio" name="userStatus" value="0" title="可用">
-                    <input type="radio" name="userStatus" value="1" title="冻结" checked>
-                </div>
-            </div>
-        </form>
-</div>
-
-<script src="/static/layui/layui.js"></script>
-<script src="/static/js/jquery-3.5.0.min.js"></script>
+<table class="layui-hide" id="userTable" lay-filter="userTable"></table>
+<!-- 工具标签 -->
+<script type="text/html" id="toolbarDemo">
+    <div class="layui-btn-container">
+        <button class="layui-btn layui-btn-sm" lay-event="getCheckData">获取选中行数据</button>
+        <button class="layui-btn layui-btn-sm" lay-event="getCheckLength">获取选中数目</button>
+        <button class="layui-btn layui-btn-sm" lay-event="isAll">验证是否全选</button>
+    </div>
+</script>
+<!--行内工具标签-->
+<script type="text/html" id="barDemo">
+    <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="detail">查看</a>
+    <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+</script>
 <script>
-    layui.use('form', function () {
-        var form = layui.form;
-        form.render();
-    });
-
-    /**
-     * 点击查询放大镜的事件
-     */
-    function queryUserFYBtn() {
-        $("[name='pageNum']").val("1");//默认页数为1
-        $("[name='pageSize']").val("10");//默认每页显示为10
-        queryUserFY();//分页查询课程信息
-    }
-
-    /**
-     * 清空查询条件的按钮
-     * 1.清空所有的条件，包括隐藏域的条件，2.重新查询一次
-     * @param obj   将清空条件按钮自己传下来
-     */
-    function clearQueryCondition(obj) {
-        //1.清空条件
-        var form = $(obj).parents("form");
-        form.find("input").val("");
-        form.find("select").val("");
-        $("[name='pageNum']").val("1");//默认页数为1
-        $("[name='pageSize']").val("10");//默认每页显示为10
-        //2.重新查询一次
-        queryUserFY();
-    }
-
-    /**
-     * 查询数据
-     */
-    function queryUserFY() {
-        $.ajax({
-            url: "/api/user/selectUserByParams",
-            data: $("#queryUserParamsForm").serialize(),
-            dataType: 'json',
-            type: 'post',
-            async: true,
-            success: showUserListTable
+    layui.use(['laydate', 'laypage', 'layer', 'table'], function () {
+        var laydate = layui.laydate
+            , laypage = layui.laypage
+            , layer = layui.layer
+            , table = layui.table
+            , $ = layui.$;
+        //执行一个 table 实例
+        table.render({
+            elem: '#userTable'
+            , id: 'userData'
+            , height: 'full-200'
+            , cellMinWidth: 80
+            , url: '/api/user/selectUserByParams' //数据接口
+            , title: '用户表'
+            , method: "POST"
+            , request: {
+                page: 'curr' //页码的参数名称，默认：page
+                , limit: 'limit' //每页数据量的参数名，默认：limit
+            }
+            , response: {
+                statusCode: 0 //重新规定成功的状态码为 200，table 组件默认为 0
+            }
+            , parseData: function (res) { //将原始数据解析成 table 组件所规定的数据
+                return {
+                    "code": res.code, //解析接口状态
+                    "msg": res.message, //解析提示文本
+                    "count": res.count, //解析数据长度
+                    "data": res.data //解析数据列表
+                };
+            }
+            , page: true //开启分页
+            , limit: 5
+            , limits: [5, 10, 15, 20, 50]//每页条数的选择项，默认：[10,20,30,40,50,60,70,80,90]。优先级低于 page 参数中的 limits 参数。
+            , toolbar: '#toolbarDemo' //开启工具栏，此处显示默认图标，可以自定义模板，详见文档
+            , defaultToolbar: ['filter', 'exports', 'print', { //自定义头部工具栏右侧图标。如无需自定义，去除该参数即可
+                title: '提示'
+                , layEvent: 'LAYTABLE_TIPS'
+                , icon: 'layui-icon-tips'
+            }]
+            , totalRow: true //开启合计行
+            , cols: [
+                [ //表头
+                    {type: 'checkbox', fixed: 'left'}
+                    , {field: 'id', title: 'ID', width: 80, sort: true, fixed: 'left', totalRowText: '合计：'}
+                    , {field: 'userAlias', title: '用户名', width: 80}
+                    , {field: 'username', title: '用户真实姓名', width: 90, sort: true, totalRow: true}
+                    , {field: 'idNoType', title: '证件类型', width: 80, sort: true}
+                    , {field: 'userIdNo', title: '证件号码', width: 80, sort: true, totalRow: true}
+                    , {field: 'loginCount', title: '登录次数', width: 150}
+                    , {field: 'userType', title: '用户类型', width: 200}
+                    , {field: 'userStatus', title: '用户状态', width: 100}
+                    , {field: 'lastLoginTime', title: '上次登录时间', width: 135, sort: true, totalRow: true}
+                    , {fixed: 'right', width: 165, align: 'center', toolbar: '#barDemo'}
+                ]
+            ]
         });
-    }
+        //头工具栏事件
+        table.on('toolbar(userTable)', function (obj) {
+            var checkStatus = table.checkStatus(obj.config.id);
+            switch (obj.event) {
+                case 'getCheckData':
+                    var data = checkStatus.data;
+                    layer.alert(JSON.stringify(data));
+                    break;
+                case 'getCheckLength':
+                    var data = checkStatus.data;
+                    layer.msg('选中了：' + data.length + ' 个');
+                    break;
+                case 'isAll':
+                    layer.msg(checkStatus.isAll ? '全选' : '未全选');
+                    break;
 
-    /**
-     * 填充表格数据
-     * @param pageInfo  ajax返回的参数信息
-     */
-    function showUserListTable(pageInfo) {
-        // alert(JSON.stringify(pageInfo))
-        //页总数
-        var total = pageInfo.total;
-        //页号
-        var pageNum = pageInfo.pageNum;
-        //页大小
-        var pageSize = pageInfo.pageSize;
-
-        var userList = pageInfo.list;
-        $("#table_user_Tbody").html("");//清空表格中数据并重新填充数据
-        for (var i = 0, length_1 = userList.length; i < length_1; i++) {
-            var index = (pageNum - 1) * pageSize + i + 1;
-            var tr = "<tr>"
-                + "<td>"
-                // + '<input type="radio" name="trainshemeRadio" value="' + userList[i].trainingSchemeID + '">'
-                + '<input type="hidden" name="id" value="' + userList[i].id + '"/></td>'
-                + '<td>' + index + '</td>'
-                + '<td>' + userList[i].userAlias + '</td>'
-                + '<td>' + userList[i].username + '</td>'
-                + '<td>' + userList[i].idNoType + '</td>'
-                + '<td>' + userList[i].userIdNo + '</td>'
-                + '<td>' + userList[i].loginCount + '</td>'
-                + '<td>' + userList[i].lastLoginTime + '</td>'
-                + '<td>' + userList[i].lastLoginIp + '</td>'
-                + '<td>' + userList[i].userType + '</td>'
-                + '<td>' + userList[i].userStatus + '</td>'
-                + '<td>' + userList[i].createTime + '</td>'
-                + '<td>' + userList[i].updateTime + '</td>'
-                + '<td>'
-                + '<a title="点击查看课程详细信息" onclick="openDetailLayer(this)" href=javascript:void(0)><i class="layui-icon">&#xe615;</i></a>'
-                + '<a href=javascript:void(0) title="点击修改课程基本信息" onclick="openUpdateLayer(this)"><i class="layui-icon">&#xe642;</i></a>'
-                + '<a href=javascript:void(0) title="点击删除课程" onclick="deleteCourseByCourseId(this)"><i class="layui-icon">&#xe640;</i></a>'
-                + '</td></tr>';
-            $("#table_user_Tbody").append(tr);
-        }
-
-
-        //开启分页组件
-        trainschemesPage(total, pageNum, pageSize);
-    }
-
-
-    /**
-     * layui的分页插件
-     * @param total 总数
-     * @param pageNum   当前页
-     * @param pageSize  页大小
-     */
-    function trainschemesPage(total, pageNum, pageSize) {
-        //使用layui的分页插件
-        layui.use(['laypage', 'layer'], function () {
-            var laypage = layui.laypage, layer = layui.layer;
-
-            //执行一个laypage实例
-            laypage.render({
-                elem: 'pageDiv', //注意，这里的 test1 是 ID，不用加 # 号
-                count: total, //数据总数，从服务端得到
-                limit: pageSize,//每页显示的条数。laypage将会借助 count 和 limit 计算出分页数。
-                curr: pageNum,//当前页号
-                limits: [5, 10, 20, 50],
-                layout: ['limit', 'prev', 'page', 'next', 'skip', 'count'],//显示哪些分页组件
-                jump: function (obj, first) {//点击页号的时候执行的函数
-                    //obj包含了当前分页的所有参数，比如：
-                    // console.log(obj.curr); //得到当前页，以便向服务端请求对应页的数据。
-                    // console.log(obj.limit); //得到每页显示的条数
-
-                    $("[name='pageNum']").val(obj.curr);//向隐藏域设置当前页的值
-                    $("[name='pageSize']").val(obj.limit);//向隐藏域设置当前页的大小
-                    if (!first) {//首次不执行(点击的时候才执行)
-                        queryUserFY();//执行查询分页函数(这个函数必须写在这里)
-                    }
-                }
-
-            });
+                //自定义头工具栏右侧图标 - 提示
+                case 'LAYTABLE_TIPS':
+                    layer.alert('这是工具栏右侧自定义的一个图标按钮');
+                    break;
+            }
+            ;
         });
-    }
-
-    function addUserFun() {
-        layer.open({
-            type: 1,
-            title: "添加用户",
-            area: ['400px', '550px'],
-            content: $("#addUserLayer"),//引用的弹出层的页面层的方式加载修改界面表单
-            btn: ['确认', '取消'],
-            yes: function (index, layero) {
-                var data = $("#addUserForm").serialize();
-                $.ajax({
-                    url: "/api/user/createUser",
-                    data: data,
-                    dataType: 'json',
-                    type: 'post',
-                    async: true,
-                    success: function (resultData) {
-                        debugger;
-                        layer.msg(resultData.msg);
-                        if (resultData.code === 0) {
-                            layer.close(index);
-                            queryUserFYBtn();
-                        }
-                    },
-                    error: function () {
-                        layer.alert("创建失败请重试");
-                    }
+        //监听行工具事件
+        table.on('tool(userTable)', function (obj) { //注：tool 是工具条事件名，userTable 是 table 原始容器的属性 lay-filter="对应的值"
+            var data = obj.data //获得当前行数据
+                , layEvent = obj.event; //获得 lay-event 对应的值
+            if (layEvent === 'detail') {
+                layer.msg('查看操作');
+            } else if (layEvent === 'del') {
+                layer.confirm('真的删除行么', function (index) {
+                    obj.del(); //删除对应行（tr）的DOM结构
+                    layer.close(index);
+                    //向服务端发送删除指令
                 });
-            },
-            btn2: function (index, layero) {
-                layer.close(index);
+            } else if (layEvent === 'edit') {
+                layer.msg('编辑操作');
+                layer.open({
+                    //layer提供了5种层类型。可传入的值有：0（信息框，默认）1（页面层）2（iframe层）3（加载层）4（tips层）
+                    type: 1,
+                    title: "修改用户信息",
+                    area: ['70%', '70%'],
+                    content: $("#popUpdateTest").html()
+                });
+                setFormValue(data);//动态向表单赋值
+            }
+        });
+        //分页
+        laypage.render({
+            elem: 'pageDemo' //分页容器的id
+            , count: 100 //总页数
+            , skin: '#1E9FFF' //自定义选中色值
+            //,skip: true //开启跳页
+            , jump: function (obj, first) {
+                if (!first) {
+                    layer.msg('第' + obj.curr + '页', {offset: 'b'});
+                }
             }
         });
 
+        var active = {
+            reload: function () {
+                // var demoReload = $('#demoReload');
+                //执行重载
+                table.reload('userData', {
+                    page: {
+                        curr: 1 //重新从第 1 页开始
+                    }
+                    , where: {
+                        "userAlias": $('#userAlias').val(),
+                        "userName": $('#userName').val(),
+                        "userStatus": $('#userStatus').val()
+                    }
+                }, 'data');
+            }
+        };
+        $('#queryUserByParams').on('click', function () {
+            var type = $(this).data('type');
+            active[type] ? active[type].call(this) : '';
+        });
+    });
+
+    //监听弹出框表单提交，massage是修改界面的表单数据'submit(demo11),是修改按钮的绑定
+    function setFormValue(obj, data) {
+        form.on('submit(demo11)', function (massage) {
+            $.ajax({
+                url: '/updateCollectorAndConfig',
+                type: 'POST',
+                data: {
+                    oldeqptType: data.eqptType,
+                    oldeqptIdCode: data.eqptIdCode,
+                    neweqptType: massage.field.neweqptType,
+                    neweqptIdCode: massage.field.neweqptIdCode,
+                    eqptName: "修改采集器"
+                },
+                success: function (msg) {
+                    var returnCode = msg.returnCode;//取得返回数据（Sting类型的字符串）的信息进行取值判断
+                    if (returnCode == 200) {
+                        layer.closeAll('loading');
+                        layer.load(2);
+                        layer.msg("修改成功", {icon: 6});
+                        setTimeout(function () {
+                            obj.update({
+                                eqptType: massage.field.neweqptType,
+                                eqptIdCode: massage.field.neweqptIdCode,
+                                eqptName: massage.field.neweqptName
+                            });//修改成功修改表格数据不进行跳转
+                            layer.closeAll();//关闭所有的弹出层
+                        }, 1000);
+                        加载层 - 风格
+                    } else {
+                        layer.msg("修改失败", {icon: 5});
+                    }
+                }
+            })
+        });
     }
 </script>
 </body>
