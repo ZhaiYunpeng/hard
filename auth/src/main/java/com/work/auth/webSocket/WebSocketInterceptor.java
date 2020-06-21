@@ -11,6 +11,10 @@ import org.springframework.web.socket.server.HandshakeInterceptor;
 
 import lombok.extern.slf4j.Slf4j;
 
+/**
+ * WebSocket 拦截器
+ * @author ZhaiYunpeng
+ */
 @Slf4j
 public class WebSocketInterceptor implements HandshakeInterceptor {
 
@@ -22,7 +26,7 @@ public class WebSocketInterceptor implements HandshakeInterceptor {
         if (request instanceof ServletServerHttpRequest) {
             String id = request.getURI().toString().split("ID=")[1];
             log.info("current session id is:" + id);
-            attributes.put("WEBSOCKET_USERID", id);
+            attributes.put("WEBSOCKET_USER_ID", id);
         }
         return true;
     }

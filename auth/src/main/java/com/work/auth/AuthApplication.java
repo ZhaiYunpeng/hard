@@ -6,6 +6,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.core.env.Environment;
+import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
@@ -18,6 +19,7 @@ import java.net.UnknownHostException;
 @Slf4j
 @SpringBootApplication
 @MapperScan("com.work.auth.dao")
+@EnableScheduling
 public class AuthApplication implements WebMvcConfigurer {
 
     public static void main(String[] args) throws UnknownHostException {

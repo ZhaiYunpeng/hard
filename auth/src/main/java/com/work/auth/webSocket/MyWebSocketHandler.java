@@ -7,7 +7,7 @@ import java.util.Map;
 import java.util.Set;
 
 import com.work.auth.util.StringUtil;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 import org.springframework.web.socket.CloseStatus;
 import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketHandler;
@@ -17,14 +17,18 @@ import org.springframework.web.socket.WebSocketSession;
 import com.alibaba.fastjson.JSONObject;
 
 import lombok.extern.slf4j.Slf4j;
+
 /**
+ * WebSocket 处理机制
  * @author ZhaiYunpeng
  */
-@Service
+@Component
 @Slf4j
-public class MyWebSocketHandler implements WebSocketHandler{
+public class MyWebSocketHandler implements WebSocketHandler {
 
-    //在线用户列表
+    /**
+     * 在线用户列表
+     */
     private static final Map<String, WebSocketSession> USERS;
 
     static {
@@ -34,26 +38,28 @@ public class MyWebSocketHandler implements WebSocketHandler{
     @Override
     public void afterConnectionEstablished(WebSocketSession session) throws Exception {
         log.info("connect websocket successful!");
-        String id = session.getUri().toString().split("ID=")[1];
+        String url = StringUtil.getString(session.getUri());
+        String id = url.split("ID=")[1];
         log.info(id);
         if (id != null) {
             USERS.put(id, session);
             session.sendMessage(new TextMessage("{\"message\":\"socket successful connection!\"}"));
             log.info("id:" + id + ",session:" + session + "");
         }
-        log.info("current user number is:"+USERS.size());
+        log.info("current user number is:" + USERS.size());
     }
 
     @Override
     public void handleMessage(WebSocketSession session, WebSocketMessage<?> message) throws Exception {
-        try{
+        try {
             JSONObject jsonobject = JSONObject.parseObject(StringUtil.getString(message.getPayload()));
             log.info("receive message:" + jsonobject);
-//			log.info(jsonobject.get("message")+":来自"+(String)session.getAttributes().get("WEBSOCKET_USERID")+"的消息");
-            //jsonobject.get("id")
-            sendMessageToUser(2+"", new TextMessage("{\"message\":\"server received message,hello!\"}"));
-        }catch (Exception e) {
-            log.error("e",e);
+            String msg = StringUtil.getString(jsonobject.get("msg"));
+            log.info("来自" + (String) session.getAttributes().get("WEBSOCKET_USER_ID") + "的消息[" + msg + "]");
+            Object id = jsonobject.get("id");
+            sendMessageToUser(StringUtil.getString(id), new TextMessage("{\"msg\":\"" + msg + "\"}"));
+        } catch (Exception e) {
+            log.error("e", e);
         }
     }
 
@@ -79,9 +85,10 @@ public class MyWebSocketHandler implements WebSocketHandler{
 
     /**
      * 发送信息给指定用户
+     *
      * @param clientId 客户端ID
-     * @param message 信息
-     * @return  boolean
+     * @param message  信息
+     * @return boolean
      */
     public boolean sendMessageToUser(String clientId, TextMessage message) {
         if (USERS.get(clientId) == null) {
@@ -103,8 +110,9 @@ public class MyWebSocketHandler implements WebSocketHandler{
 
     /**
      * 广播信息
-     * @param message
-     * @return
+     *
+     * @param message TextMessage JSON 格式字符串
+     * @return boolean
      */
     public boolean sendMessageToAllUsers(TextMessage message) {
         boolean allSendSuccess = true;
@@ -126,23 +134,25 @@ public class MyWebSocketHandler implements WebSocketHandler{
 
     /**
      * 获取用户标识
-     * @param session
-     * @return
+     *
+     * @param session WebSocketSession
+     * @return String
      */
     private String getClientId(WebSocketSession session) {
         try {
-            String clientId = (String) session.getAttributes().get("WEBSOCKET_USERID");
-            return clientId;
+            return (String) session.getAttributes().get("WEBSOCKET_USER_ID");
         } catch (Exception e) {
             log.error("e", e);
             return null;
         }
     }
+
     /**
      * 获取在线人数
-     * @return
+     *
+     * @return int
      */
-    public synchronized int getOnlineNum(){
+    public synchronized int getOnlineNum() {
         return USERS.size();
     }
 }
